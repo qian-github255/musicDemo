@@ -57,7 +57,7 @@
                 </ul>
             </section>
             <footer class="footer">
-                <audio :src="songUrl" loop="loop" class="audio" autoplay='autoplay' controls = "controls" @pause = "onPause" @play = "onPlay" @timeUpdate = "updateTime"></audio>
+                <audio :src="songUrl" loop="loop" class="audio" autoplay='autoplay' controls = "controls" @pause = "onPause" @play = "onPlay" @timeUpdate = "updateTime" ref="audioDom"></audio>
             </footer>
         </div>
         <div class="mv-content"  v-show = "showVideo"> 

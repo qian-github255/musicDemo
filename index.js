@@ -75,8 +75,11 @@ const vm = new Vue({
                 console.log(`err`, err)
             })
             this.isShowLogo = true;
+            // 点击播放音乐之后去获取当前音乐的封面
             this.getImg(songId);
+            // 点击播放音乐之后，去获取评论
             this.getComments(songId)
+            // 点击播放音乐之后，去获取歌曲id
             this.getSongInfo(songId)
         },
         // 中部图片对应
@@ -116,10 +119,16 @@ const vm = new Vue({
             }).catch(function(err){
                 console.log(`err`, err)
             })
+            // 在点击播放视频的时候，需要去停止音乐的播放
+            // 调用参数让图片停止旋转
+            that.isPlaying = false,
+            // 调用函数，暂停播放音乐
+            that.$refs["audioDom"].pause();
         },
         stopPlay : function (){
             this.videoUrl = '';
-            this.showVideo = false
+            this.showVideo = false;
+            this.$refs["audioDom"].play();
         },
         getSongInfo :function (id) {
             var that = this
