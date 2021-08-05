@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./iconfont/iconfont.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+
+    <div id="wrap">
+        <div id="musicApp">
+            <header class="header">
+                <span>demo</span>
+                <!-- 搜索框 -->
+                <div class="search">
+                    <input type="text" @keyup.enter = "searchSong" v-model="currentSong" placeholder="请输入查询信息">
+                    <i class="iconfont icon-sousuo" @click = "searchSong"></i>
+                </div>
+            </header>
+            <section class="content">
+                <!-- 歌曲列表 -->
+                <ol class="musicList">
+                    <li v-for="song of songList">
+                        <a href="#" @click = "playAudio(song.id)" ><i class="iconfont icon-play play"></i></a>
+                        <span>{{ song.name }}</span>
+                        <!-- 点击之后跳转视频 -->
+                        <a href="#"><i class="iconfont icon-MV mv"  v-show = "song.mvid != 0" @click ="playVideo(song.mvid)"></i></a>
+                    </li>
+                </ol>
+                <!-- 中间图片区域 -->
+                <div class="imgContent" @click = "isShowLogo = !isShowLogo">
+                    <div class="imgBox playing"  :class ="{stop : !isPlaying}" v-if = "isShowLogo">
+                        <img :src="songImg" alt="" >
+                    </div>
+                    <ul  v-else class="lyric-wrap" ref = "lyric">
+                        <li v-for = "(lyric,key,index) of currentMusicLyric" :key = 'key' class = "lyric"  :class ="{active : index == lyricIndex}">{{ lyric }}</li>
+                    </ul>
+                </div>
+                <!-- 评论区域 -->
+                <ul class="comments">
+                    <h4 v-if = "commentList.length">热门留言</h4>
+                    <li v-for = "comment of commentList">
+                        <!-- 头像 -->
+                        <div class="logo">
+                            <img :src="comment.user.avatarUrl" alt="用户头像">
+                        </div>
+                        <!-- 昵称 -->
+                        <span class="cickname">{{ comment.user.nickname }}</span>
+                        <!-- 评论 -->
+                        <p class="commnent">{{ comment.content }}</p>
+                    </li>
+                </ul>
+            </section>
+            <footer class="footer">
+                <audio :src="songUrl" loop="loop" class="audio" autoplay='autoplay' controls = "controls" @pause = "onPause" @play = "onPlay" @timeUpdate = "updateTime"></audio>
+            </footer>
+        </div>
+        <div class="mv-content"  v-show = "showVideo"> 
+            <div class="mask" @click = "stopPlay"></div>
+            <video :src="videoUrl" width="800" height="500" controls> </video>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="./index.js"></script>
+
+</body>
+
+</html>
